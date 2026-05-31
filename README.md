@@ -117,6 +117,16 @@ const client = Lib2B.create({
 });
 ```
 
+### M4 On-Premise Gateway
+
+```typescript
+import { m4 } from '@csoai/lib2b/m4';
+
+const client = m4({ apiKey: process.env.CSOAI_M4_API_KEY });
+// Connects to http://192.168.50.105:8000 by default
+// Override with CSOAI_M4_URL env var
+```
+
 ---
 
 ## MCP
