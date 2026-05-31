@@ -4,7 +4,7 @@
 
 Unified SDK for MCP, A2A, ACP, libp2p, and ABCI. One library to connect your enterprise to the AI agent ecosystem.
 
-[![npm](https://img.shields.io/npm/v/@csoai/lib2b)](https://www.npmjs.com/package/@csoai/lib2b)
+[![npm](https://img.shields.io/npm/v/csoai-lib2b)](https://www.npmjs.com/package/csoai-lib2b)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
@@ -14,11 +14,11 @@ Unified SDK for MCP, A2A, ACP, libp2p, and ABCI. One library to connect your ent
 ### TypeScript / JavaScript
 
 ```bash
-npm install @csoai/lib2b
+npm install csoai-lib2b
 ```
 
 ```typescript
-import { Lib2B } from '@csoai/lib2b';
+import { Lib2B } from 'csoai-lib2b';
 
 const client = Lib2B.create({
   apiKey: process.env.CSOAI_API_KEY,
@@ -120,7 +120,7 @@ const client = Lib2B.create({
 ### M4 On-Premise Gateway
 
 ```typescript
-import { m4 } from '@csoai/lib2b/m4';
+import { m4 } from 'csoai-lib2b/m4';
 
 const client = m4({ apiKey: process.env.CSOAI_M4_API_KEY });
 // Connects to http://192.168.50.105:8000 by default
@@ -230,7 +230,7 @@ console.log(health.latency.mcp); // 45 (ms)
 ## Error Handling
 
 ```typescript
-import { Lib2BError, ProtocolError, TimeoutError, ConsensusError } from '@csoai/lib2b';
+import { Lib2BError, ProtocolError, TimeoutError, ConsensusError } from 'csoai-lib2b';
 
 try {
   await client.a2a.delegate({ agents: ['agent-1'], task: 'test' });
