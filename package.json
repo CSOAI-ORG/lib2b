@@ -1,0 +1,74 @@
+{
+  "name": "@csoai/lib2b",
+  "version": "0.1.0",
+  "description": "The protocol layer for B2B AI — unified SDK for MCP, A2A, ACP, libp2p, and ABCI",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./mcp": {
+      "import": "./dist/mcp/index.mjs",
+      "require": "./dist/mcp/index.js",
+      "types": "./dist/mcp/index.d.ts"
+    },
+    "./a2a": {
+      "import": "./dist/a2a/index.mjs",
+      "require": "./dist/a2a/index.js",
+      "types": "./dist/a2a/index.d.ts"
+    },
+    "./acp": {
+      "import": "./dist/acp/index.mjs",
+      "require": "./dist/acp/index.js",
+      "types": "./dist/acp/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "python",
+    "go",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/mcp/index.ts src/a2a/index.ts src/acp/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mcp",
+    "a2a",
+    "acp",
+    "libp2p",
+    "abci",
+    "ai",
+    "agents",
+    "governance",
+    "compliance",
+    "csoai"
+  ],
+  "author": "CSOAI <dev@csoai.org>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CSOAI-ORG/lib2b.git"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "dependencies": {
+    "eventsource": "^2.0.2",
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
