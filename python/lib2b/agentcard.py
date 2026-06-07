@@ -188,3 +188,51 @@ def sweep_marketplace(root: str, base_url: str = "https://mcp.meok.ai", write: b
             wrote += 1
     return {"generated": gen, "written": wrote, "invalid": invalid, "skipped_no_metadata": skipped,
             "total_skills": sum(c["skills"] for c in cards)}
+
+
+# ── A2A registry catalog + ACP descriptors (the discoverable, served layer) ───
+def build_catalog(root: str, base_url: str = "https://mcp.meok.ai",
+                  registry_url: str = "https://meok.ai/.well-known/agents.json") -> dict:
+    """A single A2A registry document listing every MEOK agent — the one canonical,
+    crawlable URL an A2A client/registry fetches to discover the whole fleet."""
+    agents = []
+    for name in sorted(_os.listdir(root)):
+        pkg = _os.path.join(root, name)
+        if not _os.path.isdir(pkg) or name.startswith((".", "_")):
+            continue
+        card = load_mcp_card(pkg)
+        if not card:
+            continue
+        ac = mcp_to_agent_card(card, base_url=base_url)
+        if validate(ac)[0]:
+            agents.append(ac)
+    return {
+        "registry": "MEOK A2A Agent Registry",
+        "provider": dict(_PROVIDER),
+        "url": registry_url,
+        "protocolVersion": A2A_PROTOCOL_VERSION,
+        "count": len(agents),
+        "total_skills": sum(len(a["skills"]) for a in agents),
+        "agents": agents,
+    }
+
+
+def mcp_to_acp_descriptor(card: dict) -> dict:
+    """ACP (IBM BeeAI, REST) agent descriptor from the same MCP metadata —
+    so the fleet speaks MCP + A2A + ACP. ACP is manifest + REST; no SDK needed."""
+    ac = mcp_to_agent_card(card)
+    return {
+        "name": _slug(card.get("name") or card.get("title") or "meok-mcp"),
+        "description": ac["description"],
+        "metadata": {
+            "provider": _PROVIDER["organization"],
+            "version": ac["version"],
+            "documentation": ac.get("documentationUrl"),
+            "tags": ac["skills"][0]["tags"] if ac["skills"] else [],
+            "governed_by": "CSOAI 52-article charter",
+        },
+        # ACP capabilities mirror the A2A skills (tools)
+        "capabilities": [{"name": s["id"], "description": s["description"]} for s in ac["skills"]],
+        "input_content_types": list(_IO_MODES),
+        "output_content_types": list(_IO_MODES),
+    }
