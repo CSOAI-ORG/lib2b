@@ -76,3 +76,24 @@ MIT © [CSOAI-ORG](https://github.com/CSOAI-ORG)
 <p align="center">
   <sub>Built with 💜 by <a href="https://meok.ai">MEOK AI Labs</a> · UK Companies House 16939677</sub>
 </p>
+
+## 🌐 NEW: MCP → A2A Agent Cards
+
+Turn any MEOK MCP server into a discoverable **A2A Agent Card** — so the fleet is found on
+the *agentic web* (A2A registries), not just MCP directories.
+
+```python
+from lib2b.agentcard import mcp_to_agent_card, sweep_marketplace
+
+# one MCP -> one valid A2A AgentCard (required: name, version, url, capabilities)
+import json
+card = json.load(open(".well-known/mcp-server-card.json"))
+agent_card = mcp_to_agent_card(card, base_url="https://mcp.meok.ai")
+
+# or the whole fleet -> writes .well-known/agent-card.json per server
+sweep_marketplace("mcp-marketplace", write=True)
+# → {"generated": 340, "written": 340, "invalid": 0, "total_skills": 1863}
+```
+
+Each MCP tool becomes an A2A **skill**. The card carries the MEOK provenance
+(`x-meok`: signed-verifier + CSOAI charter) without breaking A2A parsers.
