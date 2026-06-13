@@ -8,3 +8,7 @@ coverage/
 .vscode/
 .idea/
 *.tgz
+
+# Auto-added during alignment sweep
+python/lib2b/__pycache__/
+python/tests/__pycache__/
